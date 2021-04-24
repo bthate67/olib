@@ -46,13 +46,3 @@ class Output(Object):
     def stop(self):
         self.stopped = True
         self.oqueue.put_nowait((None, None))
-
-def mre(event):
-    if event.channel not in Output.cache:
-        event.reply("no output in %s cache." % event.channel)
-        return
-    for txt in range(3):
-        txt = Output.cache[event.channel].pop(0)
-        if txt:
-            event.say(txt)
-    event.reply("(+%s more)" % Output.size(event.channel))

@@ -22,14 +22,11 @@ table = {
         "trc": "trc",
         "trm": "trm",
         "url": "url",
-        "usr": "usr",
         "utl": "utl",
         "zzz": "zzz"
     },
     "modules": {
-        "dlt": "usr",
         "fnd": "fnd",
-        "met": "usr",
         "mre": "opt"
     },
     "names": {
@@ -72,8 +69,7 @@ table = {
             "ENOTXT"
         ],
         "enouser": [
-            "err.ENOUSER",
-            "ENOUSER"
+            "err.ENOUSER"
         ],
         "event": [
             "evt.Event",
@@ -137,12 +133,6 @@ table = {
         ],
         "token": [
             "prs.Token"
-        ],
-        "user": [
-            "usr.User"
-        ],
-        "users": [
-            "usr.Users"
         ]
     }
 }
