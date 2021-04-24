@@ -14,15 +14,15 @@ def read():
 
 setup(
     name='olib',
-    version='1',
+    version='101',
     description="python3 object library",
     author='Bart Thate',
     author_email='bthate67@gmail.com', 
     url='https://github.com/bthate67/olib',
     long_description=read(),
     license='Public Domain',
-    package_dir={'': 'lib'},
-    py_modules=mods("lib"),
+    package_dir={'': 'olib'},
+    py_modules=mods("olib"),
     classifiers=['Development Status :: 4 - Beta',
                  'License :: Public Domain',
                  'Operating System :: Unix',

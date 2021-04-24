@@ -3,9 +3,11 @@
 
 import os, sys ; sys.path.insert(0, "lib")
 
+from fnd import fnd
 from hdl import Client, cmd
 from nms import Names
-from obj import cfg
+from obj import Object, cfg
+from tbl import table
 from trm import exec
 from zzz import os, sys
 
@@ -28,15 +30,35 @@ class Console(Client):
         sys.stdout.write("\n")
         sys.stdout.flush()
 
+class Log(Object):
+
+    Names.names["log"] = "__main__.Log"
+
+    def __init__(self):
+        super().__init__()
+        self.txt = ""
+
+def log(event):
+    if not event.rest:
+        event.reply("log <txt>")
+        return
+    o = Log()
+    o.txt = event.rest
+    o.save()
+    event.reply("ok")
+
 def ver(event):
     event.reply("OLIB %s" % __version__)
 
 def main():
+    Names.tbl(table)
     cfg.name = "ol"
     cfg.version = __version__
     cfg.wd = os.path.expanduser("~/.olib")
     c = Console()
     c.boot()
+    c.add("log", log)
+    c.add("fnd", fnd)
     c.add("ver", ver)
     if cfg.txt:
         c.prompt = False
