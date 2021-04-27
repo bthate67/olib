@@ -102,6 +102,9 @@ class Obj(O):
 
 class Object(Obj):
 
+    def json(self):
+        return repr(self)
+
     def load(self, opath):
         assert cfg.wd
         if opath.count(os.sep) != 3:
@@ -194,10 +197,9 @@ def cdir(path):
             pass
 
 def dorepr(o):
-    return '<%s.%s object at %s>' % (
+    return '<%s.%s>' % (
         o.__class__.__module__,
         o.__class__.__name__,
-        hex(id(o))
     )
 
 def getcls(fullname):
