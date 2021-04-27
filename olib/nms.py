@@ -33,37 +33,26 @@ class Names(Object):
     })
 
     modules = Object({
+        "cfg": "irc",
+        "cmd": "adm",
+        "dlt": "irc",
+        "dne": "tdo",
+        "dpl": "rss",
+        "flt": "adm",
+        "fnd": "fnd",
+        "ftc": "rss",
+        "krn": "adm",
+        "log": "log",
+        "met": "irc",
+        "mre": "irc",
+        "rem": "rss",
+        "rss": "rss",
+        "tdo": "tdo",
+        "thr": "adm",
+        "upt": "adm"
     })
 
     inits =  Object({
-    })
-
-    @staticmethod
-    def getnames(nm, dft=None):
-        return Names.names.get(nm, dft)
-
-    @staticmethod
-    def getmodule(mn):
-        return Names.modules.get(mn, None)
-
-    @staticmethod
-    def getinit(mn):
-        return Names.inits.get(mn, None)
-
-    @staticmethod
-    def tbl(tbl):
-        Names.names.update(tbl["names"])
-        Names.modules.update(tbl["modules"])
-        Names.inits.update(tbl["inits"])
-# This file is placed in the Public Domain.
-
-table = {
-    "inits": {
-    },
-    "modules": {
-        "fnd": "fnd"
-    },
-    "names": {
         "bus": [
             "bus.Bus",
             "Bus"
@@ -168,5 +157,22 @@ table = {
         "token": [
             "prs.Token"
         ]
-    }
-}
+    })
+
+    @staticmethod
+    def getnames(nm, dft=None):
+        return Names.names.get(nm, dft)
+
+    @staticmethod
+    def getmodule(mn):
+        return Names.modules.get(mn, None)
+
+    @staticmethod
+    def getinit(mn):
+        return Names.inits.get(mn, None)
+
+    @staticmethod
+    def tbl(tbl):
+        Names.names.update(tbl["names"])
+        Names.modules.update(tbl["modules"])
+        Names.inits.update(tbl["inits"])
