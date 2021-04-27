@@ -1,3 +1,3 @@
 # This file is placed in the Public Domain.
 
-rm -fR MANIFEST *~  bin/*~ build dist olib.egg-info lib/olib.egg-info lib/*~ lib/__pycache__ test/*~ test/__pycache__ .test
+rm -fR MANIFEST *~  bin/*~ build dist olib.egg-info olib/olib.egg-info olib/*~ olib/__pycache__ test/*~ test/__pycache__ .test
