@@ -8,51 +8,6 @@ from zzz import js
 class Names(Object):
 
     names = Default({
-        "bus": "bus",
-        "clk": "clk",
-        "dbs": "dbs",
-        "edt": "edt",
-        "err": "err",
-        "evt": "evt",
-        "fnd": "fnd",
-        "hdl": "hdl",
-        "itr": "itr",
-        "ldr": "ldr",
-        "nms": "nms",
-        "obj": "obj",
-        "opt": "opt",
-        "prs": "prs",
-        "tbl": "tbl",
-        "thr": "thr",
-        "tms": "tms",
-        "trc": "trc",
-        "trm": "trm",
-        "url": "url",
-        "utl": "utl",
-        "zzz": "zzz"
-    })
-
-    modules = Object({
-        "cfg": "irc",
-        "cmd": "adm",
-        "dlt": "irc",
-        "dne": "tdo",
-        "dpl": "rss",
-        "flt": "adm",
-        "fnd": "fnd",
-        "ftc": "rss",
-        "krn": "adm",
-        "log": "log",
-        "met": "irc",
-        "mre": "irc",
-        "rem": "rss",
-        "rss": "rss",
-        "tdo": "tdo",
-        "thr": "adm",
-        "upt": "adm"
-    })
-
-    inits =  Object({
         "bus": [
             "bus.Bus",
             "Bus"
@@ -157,6 +112,34 @@ class Names(Object):
         "token": [
             "prs.Token"
         ]
+    })
+
+    modules = Object({
+    })
+
+    inits =  Object({
+        "bus": "bus",
+        "clk": "clk",
+        "dbs": "dbs",
+        "edt": "edt",
+        "err": "err",
+        "evt": "evt",
+        "fnd": "fnd",
+        "hdl": "hdl",
+        "itr": "itr",
+        "ldr": "ldr",
+        "nms": "nms",
+        "obj": "obj",
+        "opt": "opt",
+        "prs": "prs",
+        "tbl": "tbl",
+        "thr": "thr",
+        "tms": "tms",
+        "trc": "trc",
+        "trm": "trm",
+        "url": "url",
+        "utl": "utl",
+        "zzz": "zzz"
     })
 
     @staticmethod
