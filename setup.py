@@ -14,7 +14,7 @@ def read():
 
 setup(
     name='olib',
-    version='102',
+    version='103',
     description="python3 object library",
     author='Bart Thate',
     author_email='bthate67@gmail.com', 
@@ -23,6 +23,7 @@ setup(
     license='Public Domain',
     package_dir={'': 'olib'},
     py_modules=mods("olib"),
+    zip_safe=True,
     classifiers=['Development Status :: 4 - Beta',
                  'License :: Public Domain',
                  'Operating System :: Unix',
