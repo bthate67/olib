@@ -1,6 +1,9 @@
 # This file is placed in the Public Domain.
 
-from zzz import datetime, os, random, time
+import datetime
+import os
+import random
+import time
 
 dmonths = ['Bo', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
             'Sep', 'Oct', 'Nov', 'Dec']

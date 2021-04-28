@@ -1,10 +1,11 @@
 # This file is in the Public Domain.
 
+import threading
+
 from bus import Bus
 from obj import Object
 from opt import Output
 from prs import parseargs
-from zzz import threading
 
 class Event(Object):
 

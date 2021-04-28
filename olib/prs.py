@@ -1,9 +1,10 @@
 # This file is placed in the Public Domain.
 
+import time
+
 from err import ENOTXT
 from obj import Default, Object
 from tms import parse_time
-from zzz import time
 
 class Token(Object):
 

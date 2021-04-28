@@ -1,9 +1,11 @@
 # This file is placed in the Public Domain.
 
+import os
+import _thread
+
 from obj import cfg, gettype, hook
 from nms import Names
 from tms import fntime
-from zzz import os, _thread
 
 dirlock = _thread.allocate_lock()
 

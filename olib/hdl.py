@@ -1,5 +1,11 @@
 # This file is placed in the Public Domain.
 
+import queue
+import sys
+import time
+import threading
+import _thread
+
 from bus import Bus
 from err import ENOMORE
 from evt import Command, Event
@@ -9,7 +15,6 @@ from prs import parseargs
 from thr import launch
 from trc import exception
 from utl import spl
-from zzz import queue, sys, time, threading, _thread
 
 cblock = _thread.allocate_lock()
 
@@ -165,6 +170,12 @@ def init(mns):
         mod = sys.modules.get(mn, None)
         if mod and "init" in dir(mod):
             mod.init()
+
+def reg(mns):
+    for mn in spl(mns):
+        mod = sys.modules.get(mn, None)
+        if mod and "reg" in dir(mod):
+            mod.reg()
 
 def cmd(hdl, obj):
     obj.parse()

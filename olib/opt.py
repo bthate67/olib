@@ -1,9 +1,11 @@
 # This file is placed in the Public Domain.
 
+import queue
+import time
+
 from err import ENOTIMPLEMENTED
 from obj import Object, ObjectList
 from thr import launch
-from zzz import queue, time
 
 class Output(Object):
 

@@ -1,6 +1,9 @@
 # This file is placed in the Public Domain.
 
-from zzz import getpass, os, pwd, sys
+import getpass
+import os
+import pwd
+import sys
 
 def locked(l):
     def lockeddec(func, *args, **kwargs):

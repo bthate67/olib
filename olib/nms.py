@@ -1,7 +1,8 @@
 # This file is placed in the Public Domain.
 
+import json as js
+
 from obj import Default, Object
-from zzz import js
 
 class Names(Object):
 

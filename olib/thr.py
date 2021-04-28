@@ -1,7 +1,9 @@
 # This file is placed in the Public Domain.
 
+import queue
+import threading
+
 from obj import Default, getname
-from zzz import queue, threading
 
 class Thr(threading.Thread):
 

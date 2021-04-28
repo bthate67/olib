@@ -1,8 +1,10 @@
 # This file is in the Public Domain.
 
+import time
+import threading
+
 from obj import Object, getname
 from thr import launch
-from zzz import time, threading
 
 class Timer(Object):
 

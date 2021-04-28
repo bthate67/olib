@@ -236,7 +236,7 @@ def hook(hfn):
     return o
 
 def opts(ops):
-    global cfg
+    print(ops, cfg.opts)
     for opt in ops:
         if opt in cfg.opts:
             return True
