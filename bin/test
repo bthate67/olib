@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
 # This file is placed in the Public Domain.
 
+import importlib
 import os
 import sys
 import shutil
 import unittest
 
-from hdl import Client
+from nms import Names, findnames
+from hdl import Client, reg
 from obj import cfg, opts
 from trm import exec
+from utl import spl
 
 import trc
 import url
+
+mods = "adm,fnd,irc,log,rss,tdo,udp"
 
 class Test(Client):
 
@@ -26,6 +31,18 @@ class FlushTest(Test):
             sys.stdout.write(txt)
             sys.stdout.write("\n")
 
+def scan(mns):
+    res = []
+    for mn in spl(mns):
+        try:
+            mod = importlib.import_module(mn)
+        except ImportError:
+            continue
+        Names.names.update(findnames(mod))
+        reg(mn)
+        res.append(mod)
+    return res
+
 def main():
     cfg.opts.v = True
     cfg.wd = ".test"
@@ -33,6 +50,7 @@ def main():
     url.debug = True
     c = FlushTest()
     c.start()
+    print(scan(mods))
     pat = "test_%s*" % "*"
     suite = unittest.loader.TestLoader().discover("test", pattern=pat)
     unittest.TextTestRunner(verbosity=3).run(suite)

@@ -3,6 +3,7 @@
 import os
 import unittest
 
+from edt import merge
 from dbs import last
 from obj import O, Object, gettype, dorepr
 
@@ -111,6 +112,20 @@ class Test_Object(unittest.TestCase):
         ooo = Object()
         last(ooo)
         self.assertEqual(ooo.bla, "mekker")
+
+    def test_merge(self):
+        o = Object()
+        o.a = 1
+        o.b = "1"
+        o.c = ["1"]
+        o.d = {"a": 1}
+        oo = Object()
+        oo.a = 1
+        oo.b = "1"
+        oo.c = ["1"]
+        oo.d = {"a": 1}
+        merge(o, oo)
+        self.assertEqual(o.c, ["1", "1"])
 
     def test_nested(self):
         o = Object()

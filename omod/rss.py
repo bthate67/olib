@@ -144,6 +144,7 @@ class Fetcher(Object):
     def run(self):
         thrs = []
         for fn, o in all("rss"):
+            print(type(o))
             thrs.append(launch(self.fetch, o))
         return thrs
 
