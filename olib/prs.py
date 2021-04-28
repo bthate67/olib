@@ -2,9 +2,12 @@
 
 import time
 
-from err import ENOTXT
 from obj import Default, Object
 from tms import parse_time
+
+class ENOTXT(Exception):
+
+     pass
 
 class Token(Object):
 

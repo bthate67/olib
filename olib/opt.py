@@ -3,7 +3,6 @@
 import queue
 import time
 
-from err import ENOTIMPLEMENTED
 from obj import Object, ObjectList
 from thr import launch
 
@@ -22,7 +21,7 @@ class Output(Object):
         Output.cache[channel].extend(txtlist)
 
     def dosay(self, channel, txt):
-        raise ENOTIMPLEMENTED("dosay")
+        pass
 
     def oput(self, channel, txt):
         self.oqueue.put_nowait((channel, txt))

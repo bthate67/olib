@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 # This file is placed in the Public Domain.
 
-import os, sys
-
-sys.path.insert(0, "olib")
-sys.path.insert(0, "mod")
-
+import os
+import sys
+import time
+ 
 from dbs import find, listfiles
 from hdl import Client, cmd
 from hdl import cmd as icmd
@@ -14,9 +13,6 @@ from obj import Object, cfg, fmt, opts
 from prs import parseargs
 from tms import elapsed, fntime, todate
 from trm import exec
-from zzz import os, sys, time
-
-import adm
 
 __version__ = 103
 

@@ -7,7 +7,6 @@ import threading
 import _thread
 
 from bus import Bus
-from err import ENOMORE
 from evt import Command, Event
 from nms import Names
 from obj import Object, cfg, dorepr
@@ -17,6 +16,10 @@ from trc import exception
 from utl import spl
 
 cblock = _thread.allocate_lock()
+
+class ENOMORE(Exception):
+
+    pass
 
 class Handler(Object):
 
