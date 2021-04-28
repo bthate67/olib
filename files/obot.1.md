@@ -6,7 +6,7 @@
 OBOT - 24/7 channel presence
 
 # SYNOPSIS
-	obot <cmd> [mods=mod1,mod2] [-v] [-d]
+| obot \<cmd\> [mods=mod1,mod2] [-v] [-d]
 
 # DESCRIPTION
 OBOT is a pure python3 IRC bot that you can run under systemd to restart
