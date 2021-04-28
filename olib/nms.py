@@ -1,8 +1,6 @@
 # This file is placed in the Public Domain.
 
 from obj import Default, Object
-from itr import findmods, findnames
-from utl import direct
 from zzz import js
 
 class Names(Object):
@@ -143,6 +141,10 @@ class Names(Object):
     })
 
     @staticmethod
+    def add(func):
+        Names.modules[func.__name__] = func.__module__
+
+    @staticmethod
     def getnames(nm, dft=None):
         return Names.names.get(nm, dft)
 
@@ -154,8 +156,3 @@ class Names(Object):
     def getinit(mn):
         return Names.inits.get(mn, None)
 
-    @staticmethod
-    def tbl(tbl):
-        Names.names.update(tbl["names"])
-        Names.modules.update(tbl["modules"])
-        Names.inits.update(tbl["inits"])
