@@ -66,10 +66,11 @@ def upt(event):
 
 def ver(event):
     res = []
-    res.append("%s %s" % (cfg.name, cfg.version))
     for name in sys.modules:
         mod = sys.modules.get(name, None)
         if mod and "__version__" in dir(mod):
-            res.append("%s %s" % (mod.__name__.lower(), mod.__version__))
+            if name == "__main__":
+                continue
+            res.append("%s %s" % (mod.__name__.upper(), mod.__version__))
     if res:
         event.reply(" | ".join(res))

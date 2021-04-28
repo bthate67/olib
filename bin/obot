@@ -53,12 +53,6 @@ def scan(mns):
         Names.names.update(findnames(mod))
         reg(mn)
 
-def cmd(event):
-    event.reply(",".join(sorted(Names.modules)))
-
-def ver(event):
-    event.reply("BOT %s" % cfg.version)
-
 def main():
     boot()
     if "INVOCATION_ID" in os.environ:
@@ -74,8 +68,6 @@ def main():
         csl = CLI()
     else:
         csl = Console()
-    csl.add("cmd", cmd)
-    csl.add("ver", ver)
     if cfg.txt:
         return csl.cmd(cfg.otxt)
     csl.start()
