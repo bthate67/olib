@@ -7,8 +7,11 @@ import importlib
 import os
 import sys 
 
-from hdl import Client, boot, docmd, init, reg
-from obj import cfg, opts
+sys.path.insert(0, "olib")
+sys.path.insert(0, "omod")
+
+from hdl import Client, docmd, init, reg
+from obj import cfg, boot, opts
 from nms import Names, findnames
 from prs import parseargs
 from trm import exec, termreset
@@ -55,14 +58,9 @@ def scan(mns):
 
 def main():
     boot()
-    if "INVOCATION_ID" in os.environ:
-        cfg.wd = "/var/lib/bot/"
-        cfg.mods += ",adm,irc"
-    else:
-        cfg.wd = os.path.expanduser("~/.bot")
-        cfg.mods += ",adm"
-    cfg.name = "bot"
+    cfg.name = "obot"
     cfg.version = __version__
+    cfg.wd = cfg.wd or "/var/lib/obot/"
     if opts("d"):
         daemon()
         csl = CLI()
@@ -71,7 +69,7 @@ def main():
     if cfg.txt:
         return csl.cmd(cfg.otxt)
     csl.start()
-    scan(cfg.mods)
+    scan(cfg.mods or mods)
     init(cfg.mods)
     csl.wait()
 

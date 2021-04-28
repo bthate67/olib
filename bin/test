@@ -7,11 +7,16 @@ import sys
 import shutil
 import unittest
 
+sys.path.insert(0, "olib")
+sys.path.insert(0, "omod")
+
 from nms import Names, findnames
 from hdl import Client, reg
-from obj import cfg, opts
+from obj import boot, cfg, opts
 from trm import exec
 from utl import spl
+
+import obj
 
 import trc
 import url
@@ -21,15 +26,8 @@ mods = "adm,fnd,irc,log,rss,tdo,udp"
 class Test(Client):
 
     def raw(self, txt):
-        if opts("v"):
+        if "v" in obj.cfg.opts:
             print(txt)
-
-class FlushTest(Test):
-
-    def raw(self, txt):
-        if opts("v"):
-            sys.stdout.write(txt)
-            sys.stdout.write("\n")
 
 def scan(mns):
     res = []
@@ -44,13 +42,13 @@ def scan(mns):
     return res
 
 def main():
-    cfg.opts.v = True
+    boot()
     cfg.wd = ".test"
     shutil.rmtree(".test", True)
     url.debug = True
-    c = FlushTest()
+    c = Test()
     c.start()
-    print(scan(mods))
+    scan(mods)
     pat = "test_%s*" % "*"
     suite = unittest.loader.TestLoader().discover("test", pattern=pat)
     unittest.TextTestRunner(verbosity=3).run(suite)

@@ -135,7 +135,6 @@ class Object(Obj):
         self.__stp__ = stp
         return self
 
-    #@locked(savelock)
     def save(self, tab=False):
         assert cfg.wd
         prv = os.sep.join(self.__stp__.split(os.sep)[:2])
@@ -180,7 +179,7 @@ class Cfg(Default):
 
     mods = ""
     opts = Default()
-    name = "bot"
+    name = ""
     version = None
     wd = ""
 
@@ -195,6 +194,12 @@ class Cfg(Default):
 cfg = Cfg()
 
 starttime = time.time()
+
+def boot(wd=None):
+    if len(sys.argv) >= 1:
+        from prs import parseargs
+        parseargs(cfg, " ".join(sys.argv[1:]))
+        cfg.update(cfg.sets)
 
 def cdir(path):
     if os.path.exists(path):

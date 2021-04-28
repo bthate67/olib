@@ -17,6 +17,8 @@ from thr import launch
 from trc import exception
 from utl import spl
 
+import obj
+
 cblock = _thread.allocate_lock()
 
 class ENOMORE(Exception):
@@ -167,8 +169,8 @@ class Client(Handler):
 
 def boot(wd=None):
     if len(sys.argv) >= 1:
-        parseargs(cfg, " ".join(sys.argv[1:]))
-        cfg.update(cfg.sets)
+        parseargs(obj.cfg, " ".join(sys.argv[1:]))
+        obj.cfg.update(obj.cfg.sets)
 
 def init(mns):
     for mn in spl(mns):

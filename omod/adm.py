@@ -71,6 +71,6 @@ def ver(event):
         if mod and "__version__" in dir(mod):
             if name == "__main__":
                 continue
-            res.append("%s %s" % (mod.__name__.upper(), mod.__version__))
+            res.append("%s %s" % (mod.__name__, mod.__version__))
     if res:
         event.reply(" | ".join(res))
