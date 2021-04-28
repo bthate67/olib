@@ -34,7 +34,7 @@ methods like get, items, keys, register, set, update, values.
 """
 
 from err import ENOCLASS, ENOFILENAME
-from zzz import datetime, importlib, js, os, time, types, uuid, _thread
+from zzz import datetime, js, os, time, types, uuid, _thread
 
 savelock = _thread.allocate_lock()
 
@@ -207,8 +207,8 @@ def getcls(fullname):
         modname, clsname = fullname.rsplit(".", 1)
     except Exception as ex:
         raise ENOCLASS(fullname) from ex
-    mod = importlib.import_module(modname)
-    return getattr(mod, clsname)
+    mod = sys.modules.get(modname, None)
+    return getattr(mod, clsname, None)
 
 def hook(hfn):
     if hfn.count(os.sep) > 3:

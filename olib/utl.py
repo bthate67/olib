@@ -1,20 +1,6 @@
 # This file is placed in the Public Domain.
 
-from zzz import getpass, importlib, os, pwd, sys
-
-def direct(name, pname=''):
-    if name in sys.modules:
-        return sys.modules[name]
-    return importlib.import_module(name, pname)
-
-def hasmod(fqn):
-    try:
-        spec = importlib.util.find_spec(fqn)
-        if spec:
-            return True
-    except (ValueError, ModuleNotFoundError):
-        pass
-    return False
+from zzz import getpass, os, pwd, sys
 
 def locked(l):
     def lockeddec(func, *args, **kwargs):
@@ -29,6 +15,13 @@ def locked(l):
         lockedfunc.__wrapped__ = func
         return lockedfunc
     return lockeddec
+
+def mods(name):
+    res = []
+    for p in os.listdir(name):
+        if p.endswith(".py"):
+           res.append(p[:-3])
+    return res
 
 def privileges(name=None):
     if os.getuid() != 0:

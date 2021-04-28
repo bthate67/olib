@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 # This file is placed in the Public Domain.
 
-import os, sys ; sys.path.insert(0, "olib")
+import os, sys
+
+sys.path.insert(0, "olib")
+sys.path.insert(0, "mod")
 
 from dbs import find, listfiles
 from fnd import fnd
@@ -9,9 +12,12 @@ from hdl import Client, cmd
 from hdl import cmd as icmd
 from nms import Names
 from obj import Object, cfg, fmt, opts
+from prs import parseargs
 from tms import elapsed, fntime, todate
 from trm import exec
 from zzz import os, sys, time
+
+import adm
 
 __version__ = 103
 
@@ -83,12 +89,19 @@ def fnd(event):
 def ver(event):
     event.reply("OLIB %s" % __version__)
 
+def boot(name=None, wd=None):
+    if len(sys.argv) >= 1:
+        parseargs(cfg, " ".join(sys.argv[1:]))
+        cfg.update(cfg.sets)
+    cfg.name = name or cfg.name
+    cfg.wd = wd or cfg.wd
+
 def main():
+    boot()
     cfg.name = "ol"
     cfg.version = __version__
     cfg.wd = os.path.expanduser("~/.olib")
     c = Console()
-    c.boot()
     c.add("cmd", cmd)
     c.add("log", log)
     c.add("fnd", fnd)

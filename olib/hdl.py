@@ -3,17 +3,15 @@
 from bus import Bus
 from err import ENOMORE
 from evt import Command, Event
-from ldr import Loader
-from itr import findcmds
 from obj import Object, dorepr
 from nms import Names
 from thr import launch
 from trc import exception
-from zzz import queue, time, threading, _thread
+from zzz import queue, sys, time, threading, _thread
 
 cblock = _thread.allocate_lock()
 
-class Handler(Loader):
+class Handler(Object):
 
     def __init__(self):
         super().__init__()
@@ -26,7 +24,6 @@ class Handler(Loader):
     def addbus(self):
         Bus.add(self)
 
-    #@locked(cblock)
     def callbacks(self, event):
         if event and event.type in self.cbs:
             self.cbs[event.type](self, event)
@@ -48,7 +45,7 @@ class Handler(Loader):
                 e.ready()
                 ee = Event()
                 ee.trace = exception()
-                ee.ex = ex
+                ee.exc = ex
                 self.error(ee)
 
     def put(self, e):
@@ -107,11 +104,9 @@ class Client(Handler):
         return c
 
     def getcmd(self, cmd):
-        if cmd not in self.cmds:
-            mn = Names.getmodule(cmd)
-            if mn:
-                self.load(mn)
-        return self.cmds.get(cmd, None)
+        mn = Names.getmodule(cmd)
+        mod = sys.modules.get(mn, None)
+        return getattr(mod, cmd, None)
 
     def handle(self, e):
         super().put(e)
@@ -124,11 +119,6 @@ class Client(Handler):
         while not self.stopped:
             e = self.once()
             self.handle(e)
-
-    def load(self, name):
-        mod = super().load(name)
-        self.cmds.update(findcmds(mod))
-        return mod
 
     def once(self):
         txt = self.poll()

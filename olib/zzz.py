@@ -5,7 +5,6 @@ import datetime
 import getpass
 import html
 import html.parser
-import importlib
 import inspect
 import json as js
 import mailbox
