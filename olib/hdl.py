@@ -42,6 +42,13 @@ class Handler(Object):
         else:
             event.ready()
 
+    def cmd(self, txt):
+        self.prompt = False
+        e = self.event(txt)
+        docmd(self, e)
+        e.wait()
+        return e
+
     def error(self, event):
         pass
 
@@ -158,13 +165,10 @@ class Client(Handler):
         super().stop()
         self.ready.set()
 
-def boot(name=None, wd=None, version=None):
+def boot(wd=None):
     if len(sys.argv) >= 1:
         parseargs(cfg, " ".join(sys.argv[1:]))
         cfg.update(cfg.sets)
-    cfg.name = name or cfg.name
-    cfg.version = version or __version__
-    cfg.wd = wd or cfg.wd
 
 def init(mns):
     for mn in spl(mns):

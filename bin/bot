@@ -7,14 +7,10 @@ import importlib
 import os
 import sys 
 
-sys.path.insert(0, "mod")
-sys.path.insert(0, "olib")
-
 from hdl import Client, boot, docmd, init, reg
 from obj import cfg
 from nms import Names, findnames
 from prs import parseargs
-from irc import Cfg
 from trm import exec
 from utl import spl
 
@@ -37,7 +33,10 @@ class Console(Client):
 
 def scan(mns):
     for mn in spl(mns):
-        mod = importlib.import_module(mn)
+        try:
+            mod = importlib.import_module(mn)
+        except ImportError:
+            continue
         Names.names.update(findnames(mod))
         reg(mn)
 
@@ -48,10 +47,20 @@ def ver(event):
     event.reply("BOT %s" % cfg.version)
 
 def main():
-    boot("bot", os.path.expanduser("~/.bot"), __version__)
+    if "INVOCATION_ID" in os.environ:
+        cfg.wd = "/var/lib/bot"
+        cfg.mods += "adm,irc"
+    else:
+        cfg.wd = os.path.expanduser("~/.bot")
+        cfg.mods += "adm"
+    cfg.name = "bot"
+    cfg.version = __version__
+    boot()
     c = Console()
     c.add("cmd", cmd)
     c.add("ver", ver)
+    if cfg.txt:
+        return c.cmd(cfg.otxt)
     c.start()
     scan(cfg.mods)
     init(cfg.mods)
