@@ -85,14 +85,12 @@ class Client(Handler):
 
     def __init__(self):
         super().__init__()
-        self.cmds = Object()
         self.iqueue = queue.Queue()
         self.stopped = False
         self.running = False
         self.initialize()
 
     def add(self, name, cmd):
-        self.cmds.register(name, cmd)
         Names.modules[name] = cmd.__module__
 
     def addbus(self):
@@ -100,9 +98,6 @@ class Client(Handler):
 
     def announce(self, txt):
         self.raw(txt)
-
-    def clone(self, clt):
-        self.cmds.update(clt.cmds)
 
     def event(self, txt):
         c = Command()
