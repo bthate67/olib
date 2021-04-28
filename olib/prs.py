@@ -7,7 +7,7 @@ from tms import parse_time
 
 class ENOTXT(Exception):
 
-     pass
+    pass
 
 class Token(Object):
 

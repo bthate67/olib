@@ -1,5 +1,7 @@
 # This file is placed in the Public Domain.
 
+__version__ = 120
+
 import queue
 import sys
 import time
@@ -118,7 +120,7 @@ class Client(Handler):
 
     def initialize(self):
         self.addbus()
-        self.register("cmd", cmd)
+        self.register("cmd", docmd)
 
     def input(self):
         while not self.stopped:
@@ -156,11 +158,12 @@ class Client(Handler):
         super().stop()
         self.ready.set()
 
-def boot(name=None, wd=None):
+def boot(name=None, wd=None, version=None):
     if len(sys.argv) >= 1:
         parseargs(cfg, " ".join(sys.argv[1:]))
         cfg.update(cfg.sets)
     cfg.name = name or cfg.name
+    cfg.version = version or __version__
     cfg.wd = wd or cfg.wd
 
 def init(mns):
@@ -175,7 +178,7 @@ def reg(mns):
         if mod and "reg" in dir(mod):
             mod.reg()
 
-def cmd(hdl, obj):
+def docmd(hdl, obj):
     obj.parse()
     f = hdl.getcmd(obj.cmd)
     if f:

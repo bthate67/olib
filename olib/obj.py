@@ -50,7 +50,7 @@ def gettype(o):
 class ENOCLASS(Exception):
 
     pass
-    
+
 class ENOFILENAME(Exception):
 
     pass
@@ -211,9 +211,10 @@ def cdir(path):
             pass
 
 def dorepr(o):
-    return '<%s.%s>' % (
+    return '<%s.%s object at %s>' % (
         o.__class__.__module__,
         o.__class__.__name__,
+        hex(id(o))
     )
 
 def getcls(fullname):

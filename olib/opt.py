@@ -1,7 +1,6 @@
 # This file is placed in the Public Domain.
 
 import queue
-import time
 
 from obj import Object, ObjectList
 from thr import launch

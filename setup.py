@@ -5,8 +5,10 @@ from setuptools import setup, os
 def mods(name):
     res = []
     for p in os.listdir(name):
+        if p.startswith("__"):
+            continue
         if p.endswith(".py"):
-           res.append(p[:-3])
+            res.append(p[:-3])
     return res
 
 def read():

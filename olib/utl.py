@@ -3,7 +3,6 @@
 import getpass
 import os
 import pwd
-import sys
 
 def locked(l):
     def lockeddec(func, *args, **kwargs):
@@ -21,10 +20,13 @@ def locked(l):
 
 def mods(name):
     res = []
-    for p in os.listdir(name):
-        if p.endswith(".py"):
-           res.append(p[:-3])
-    return res
+    if os.path.exists(name):
+        for p in os.listdir(name):
+            if p.startswith("__"):
+                continue
+            if p.endswith(".py"):
+                res.append(p[:-3])
+    return ",".join(res)
 
 def privileges(name=None):
     if os.getuid() != 0:

@@ -1,11 +1,22 @@
 # This file is in the Public Domain.
 
+import sys
+import threading
+import time
+
 from bus import Bus
 from edt import edit
 from nms import Names
 from obj import Object, cfg, fmt, getname, starttime
 from tms import elapsed
-from zzz import threading, time
+
+def reg():
+    Names.add(cmd)
+    Names.add(flt)
+    Names.add(krn)
+    Names.add(thr)
+    Names.add(upt)
+    Names.add(ver)
 
 def cmd(event):
     event.reply(",".join(sorted(Names.modules)))
@@ -53,8 +64,12 @@ def thr(event):
 def upt(event):
     event.reply("uptime is %s" % elapsed(time.time() - starttime))
 
-Names.add(cmd)
-Names.add(flt)
-Names.add(krn)
-Names.add(thr)
-Names.add(upt)
+def ver(event):
+    res = []
+    res.append("%s %s" % (cfg.name, cfg.version))
+    for name in sys.modules:
+        mod = sys.modules.get(name, None)
+        if mod and "__version__" in dir(mod):
+            res.append("%s %s" % (mod.__name__.lower(), mod.__version__))
+    if res:
+        event.reply(" | ".join(res))

@@ -24,7 +24,7 @@ class Event(Object):
         return Bus.byorig(self.orig)
 
     def parse(self):
-        if self.txt:
+        if self.txt is not None:
             parseargs(self, self.txt)
 
     def ready(self):
