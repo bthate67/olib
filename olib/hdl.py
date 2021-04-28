@@ -3,10 +3,12 @@
 from bus import Bus
 from err import ENOMORE
 from evt import Command, Event
-from obj import Object, dorepr
 from nms import Names
+from obj import Object, cfg, dorepr
+from prs import parseargs
 from thr import launch
 from trc import exception
+from utl import spl
 from zzz import queue, sys, time, threading, _thread
 
 cblock = _thread.allocate_lock()
@@ -150,6 +152,19 @@ class Client(Handler):
         self.stopped = True
         super().stop()
         self.ready.set()
+
+def boot(name=None, wd=None):
+    if len(sys.argv) >= 1:
+        parseargs(cfg, " ".join(sys.argv[1:]))
+        cfg.update(cfg.sets)
+    cfg.name = name or cfg.name
+    cfg.wd = wd or cfg.wd
+
+def init(mns):
+    for mn in spl(mns):
+        mod = sys.modules.get(mn, None)
+        if mod and "init" in dir(mod):
+            mod.init()
 
 def cmd(hdl, obj):
     obj.parse()

@@ -7,7 +7,6 @@ sys.path.insert(0, "olib")
 sys.path.insert(0, "mod")
 
 from dbs import find, listfiles
-from fnd import fnd
 from hdl import Client, cmd
 from hdl import cmd as icmd
 from nms import Names

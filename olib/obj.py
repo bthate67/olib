@@ -33,13 +33,27 @@ attribute access as well. Hidden methods are provided as are the basic
 methods like get, items, keys, register, set, update, values.
 """
 
-from err import ENOCLASS, ENOFILENAME
-from zzz import datetime, js, os, time, types, uuid, _thread
+import datetime
+import json as js
+import os
+import sys
+import time
+import types
+import uuid
+import _thread
 
 savelock = _thread.allocate_lock()
 
 def gettype(o):
     return str(type(o)).split()[-1][1:-2]
+
+class ENOCLASS(Exception):
+
+    pass
+    
+class ENOFILENAME(Exception):
+
+    pass
 
 class O:
 
