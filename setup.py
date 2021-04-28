@@ -2,6 +2,15 @@
 
 from setuptools import setup, os
 
+def files(name):
+    res = []
+    for p in os.listdir(name):
+        if p.startswith("__"):
+            continue
+        if p.endswith(".py"):
+            res.append(os.path.join(name, p))
+    return res
+
 def mods(name):
     res = []
     for p in os.listdir(name):
@@ -26,6 +35,10 @@ setup(
     package_dir={'': 'olib'},
     py_modules=mods("olib"),
     zip_safe=True,
+    include_package_data=True,
+    data_files=[('share/obot', ['files/obot.service']),
+                ('share/obot/omod', files('omod')),
+                ('share/man/man1', ['man/obot.1.gz'])],
     classifiers=['Development Status :: 4 - Beta',
                  'License :: Public Domain',
                  'Operating System :: Unix',
