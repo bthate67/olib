@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 # This file is placed in the Public Domain.
 
-import os, sys ; sys.path.insert(0, "olib")
+import os
+import sys
+import shutil
+import unittest
 
 from hdl import Client
 from obj import cfg, opts
 from trm import exec
-from zzz import shutil, unittest
 
 import trc
 import url

@@ -1,7 +1,9 @@
 # This file is placed in the Public Domain.
 
+import json as js
+import unittest
+
 from obj import O, Obj, Object, default
-from zzz import js, unittest
 
 class Test_JSON(unittest.TestCase):
 

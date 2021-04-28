@@ -1,8 +1,10 @@
 # This file is placed in the Public Domain.
 
+import os
+import unittest
+
 from dbs import last
 from obj import O, Object, gettype, dorepr
-from zzz import os, unittest
 
 class Test_Object(unittest.TestCase):
 
