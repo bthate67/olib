@@ -8,28 +8,41 @@ import os
 import sys 
 
 from hdl import Client, boot, docmd, init, reg
-from obj import cfg
+from obj import cfg, opts
 from nms import Names, findnames
 from prs import parseargs
-from trm import exec
+from trm import exec, termreset
 from utl import spl
 
 mods = "adm,fnd,irc,log,rss,tdo,udp"
 
-class Console(Client):
-
-    prompt = True
+class CLI(Client):
 
     def handle(self, e):
         super().handle(e)
         e.wait()
 
-    def poll(self):
-        if Console.prompt:
-            return input("> ")
-
     def raw(self, txt):
         print(txt)
+
+class Console(CLI):
+
+    def poll(self):
+        return input("> ")
+
+def daemon():
+    pid = os.fork()
+    if pid != 0:
+        termreset()
+        os._exit(0)
+    os.setsid()
+    os.umask(0)
+    si = open("/dev/null", 'r')
+    so = open("/dev/null", 'a+')
+    se = open("/dev/null", 'a+')
+    os.dup2(si.fileno(), sys.stdin.fileno())
+    os.dup2(so.fileno(), sys.stdout.fileno())
+    os.dup2(se.fileno(), sys.stderr.fileno())
 
 def scan(mns):
     for mn in spl(mns):
@@ -47,23 +60,27 @@ def ver(event):
     event.reply("BOT %s" % cfg.version)
 
 def main():
+    boot()
     if "INVOCATION_ID" in os.environ:
-        cfg.wd = "/var/lib/bot"
-        cfg.mods += "adm,irc"
+        cfg.wd = "/var/lib/bot/"
+        cfg.mods += ",adm,irc"
     else:
         cfg.wd = os.path.expanduser("~/.bot")
-        cfg.mods += "adm"
+        cfg.mods += ",adm"
     cfg.name = "bot"
     cfg.version = __version__
-    boot()
-    c = Console()
-    c.add("cmd", cmd)
-    c.add("ver", ver)
+    if opts("d"):
+        daemon()
+        csl = CLI()
+    else:
+        csl = Console()
+    csl.add("cmd", cmd)
+    csl.add("ver", ver)
     if cfg.txt:
-        return c.cmd(cfg.otxt)
-    c.start()
+        return csl.cmd(cfg.otxt)
+    csl.start()
     scan(cfg.mods)
     init(cfg.mods)
-    c.wait()
+    csl.wait()
 
 exec(main)

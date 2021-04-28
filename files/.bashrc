@@ -116,4 +116,5 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export PYTHONPATH=${PYTHONPATH}:bot:olib
+export PYTHONPATH=${PYTHONPATH}:olib:omod
+export PATH=${PATH}:bin
