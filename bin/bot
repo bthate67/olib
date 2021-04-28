@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+# This file is placed in the Public Domain.
+
+__version__ = 120
+
+import importlib
+import os
+import sys 
+
+sys.path.insert(0, "mod")
+sys.path.insert(0, "olib")
+
+from hdl import Client, boot, docmd, init, reg
+from obj import cfg
+from nms import Names, findnames
+from prs import parseargs
+from irc import Cfg
+from trm import exec
+from utl import spl
+
+mods = "adm,fnd,irc,log,rss,tdo,udp"
+
+class Console(Client):
+
+    prompt = True
+
+    def handle(self, e):
+        super().handle(e)
+        e.wait()
+
+    def poll(self):
+        if Console.prompt:
+            return input("> ")
+
+    def raw(self, txt):
+        print(txt)
+
+def scan(mns):
+    for mn in spl(mns):
+        mod = importlib.import_module(mn)
+        Names.names.update(findnames(mod))
+        reg(mn)
+
+def cmd(event):
+    event.reply(",".join(sorted(Names.modules)))
+
+def ver(event):
+    event.reply("BOT %s" % cfg.version)
+
+def main():
+    boot("bot", os.path.expanduser("~/.bot"), __version__)
+    c = Console()
+    c.add("cmd", cmd)
+    c.add("ver", ver)
+    c.start()
+    scan(cfg.mods)
+    init(cfg.mods)
+    c.wait()
+
+exec(main)
