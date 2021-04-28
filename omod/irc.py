@@ -38,7 +38,7 @@ class ENOUSER(Exception):
 class Cfg(Cfg):
 
     cc = "!"
-    channel = "#olib"
+    channel = "#obot"
     nick = "obot"
     port = 6667
     server = "localhost"
