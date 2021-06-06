@@ -1,34 +1,40 @@
 # This file is placed in the Public Domain.
 
 import os
-import _thread
+import time
 
-from obj import cfg, gettype, hook
-from tms import fntime
+from .krn import Kernel
+from .obj import cfg, gettype, search
 
-dirlock = _thread.allocate_lock()
+class ENOTYPE(Exception):
+
+    pass
 
 def all(otype, selector=None, index=None, timed=None):
     nr = -1
     if selector is None:
         selector = {}
-    for fn in fns(otype, timed):
-        o = hook(fn)
-        if selector and not search(o, selector):
-            continue
-        if "_deleted" in o and o._deleted:
-            continue
-        nr += 1
-        if index is not None and nr != index:
-            continue
-        yield fn, o
+    otypes = Kernel.getnames(otype, [])
+    for t in otypes:
+        for fn in fns(t, timed):
+            o = hook(fn)
+            if selector and not search(o, selector):
+                continue
+            if "_deleted" in o and o._deleted:
+                continue
+            nr += 1
+            if index is not None and nr != index:
+                continue
+            yield fn, o
 
 def deleted(otype):
-    for fn in fns(otype):
-        o = hook(fn)
-        if "_deleted" not in o or not o._deleted:
-            continue
-        yield fn, o
+    otypes = Kernel.getnames(otype, [])
+    for t in otypes:
+        for fn in fns(t):
+            o = hook(fn)
+            if "_deleted" not in o or not o._deleted:
+                continue
+            yield fn, o
 
 def every(selector=None, index=None, timed=None):
     nr = -1
@@ -46,22 +52,23 @@ def every(selector=None, index=None, timed=None):
                 continue
             yield fn, o
 
-def find(otype, selector=None, index=None, timed=None):
+def find(otypes, selector=None, index=None, timed=None):
     if selector is None:
         selector = {}
     got = False
     nr = -1
-    for fn in fns(otype, timed):
-        o = hook(fn)
-        if selector and not search(o, selector):
-            continue
-        if "_deleted" in o and o._deleted:
-            continue
-        nr += 1
-        if index is not None and nr != index:
-            continue
-        got = True
-        yield (fn, o)
+    for t in otypes:
+        for fn in fns(t, timed):
+            o = hook(fn)
+            if selector and not search(o, selector):
+                continue
+            if "_deleted" in o and o._deleted:
+                continue
+            nr += 1
+            if index is not None and nr != index:
+                continue
+            got = True
+            yield (fn, o)
     if not got:
         return (None, None)
 
@@ -92,11 +99,9 @@ def lastfn(otype):
         return (fnn, hook(fnn))
     return (None, None)
 
-#@locked(savelock)
 def fns(name, timed=None):
     if not name:
         return []
-    assert cfg.wd
     p = os.path.join(cfg.wd, "store", name) + os.sep
     res = []
     d = ""
@@ -115,22 +120,38 @@ def fns(name, timed=None):
                     res.append(p)
     return sorted(res, key=fntime)
 
+def fntime(daystr):
+    daystr = daystr.replace("_", ":")
+    datestr = " ".join(daystr.split(os.sep)[-2:])
+    if "." in datestr:
+        datestr, rest = datestr.rsplit(".", 1)
+    else:
+        rest = ""
+    t = time.mktime(time.strptime(datestr, "%Y-%m-%d %H:%M:%S"))
+    if rest:
+        t += float("." + rest)
+    else:
+        t = 0
+    return t
+
+def hook(hfn):
+    if hfn.count(os.sep) > 3:
+        oname = hfn.split(os.sep)[-4:]
+    else:
+        oname = hfn.split(os.sep)
+    cname = oname[0]
+    fn = os.sep.join(oname)
+    t = Kernel.getcls(cname)
+    if not t:
+        raise ENOTYPE(cname)
+    if fn:
+        o = t()
+        o.load(fn)
+        return o
+    raise ENOTYPE(cname)
+
 def listfiles(wd):
     path = os.path.join(wd, "store")
     if not os.path.exists(path):
         return []
     return sorted(os.listdir(path))
-
-def search(o, s):
-    ok = False
-    try:
-        ss = vars(s)
-    except TypeError:
-        ss = s
-    for k, v in ss.items():
-        vv = getattr(o, k, None)
-        if v not in str(vv):
-            ok = False
-            break
-        ok = True
-    return ok

@@ -1,10 +1,15 @@
 # This file is in the Public Domain.
 
-from nms import Names
-from obj import Object
+"logging"
 
-def init():
-    Names.add(log)
+from bot.obj import Object
+
+def __dir__():
+    return ("Log", "log", "register")
+
+def register(k):
+    k.addcmd(log)
+    k.addcls(Log)
 
 class Log(Object):
 

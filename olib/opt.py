@@ -2,12 +2,13 @@
 
 import queue
 
-from obj import Object, ObjectList
-from thr import launch
+from .lst import List
+from .obj import Object
+from .thr import launch
 
 class Output(Object):
 
-    cache = ObjectList()
+    cache = List()
 
     def __init__(self):
         super().__init__()
@@ -28,7 +29,7 @@ class Output(Object):
     def output(self):
         while not self.stopped:
             (channel, txt) = self.oqueue.get()
-            if self.stopped:
+            if self.stopped or channel is None:
                 break
             self.dosay(channel, txt)
 

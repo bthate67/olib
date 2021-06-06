@@ -2,8 +2,7 @@
 
 import queue
 import threading
-
-from obj import Default, getname
+import types
 
 class Thr(threading.Thread):
 
@@ -31,13 +30,24 @@ class Thr(threading.Thread):
         ""
         func, args = self.queue.get_nowait()
         if args:
-            try:
-                target = Default(vars(args[0]))
-                self.name = (target and target.txt and target.txt.split()[0]) or self.name
-            except (IndexError, TypeError):
-                pass
+            target = vars(args[0])
+            if target and "txt" in dir(target):
+                self.name = target.txt.split()[0]
         self.setName(self.name)
         self.result = func(*args)
+
+def getname(o):
+    t = type(o)
+    if t == types.ModuleType:
+        return o.__name__
+    if "__self__" in dir(o):
+        return "%s.%s" % (o.__self__.__class__.__name__, o.__name__)
+    if "__class__" in dir(o) and "__name__" in dir(o):
+        return "%s.%s" % (o.__class__.__name__, o.__name__)
+    if "__class__" in dir(o):
+        return o.__class__.__name__
+    if "__name__" in dir(o):
+        return o.__name__
 
 def launch(func, *args, **kwargs):
     name = kwargs.get("name", getname(func))

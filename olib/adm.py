@@ -1,41 +1,41 @@
 # This file is in the Public Domain.
 
-import sys
+"administration"
+
 import threading
 import time
 
-from bus import Bus
-from edt import edit
-from nms import Names
-from obj import Object, cfg, fmt, getname, starttime
-from tms import elapsed
+from .bus import Bus
+from .prs import elapsed
+from .krn import Kernel
+from .obj import Object, edit, fmt, getname
 
-def reg():
-    Names.add(cmd)
-    Names.add(flt)
-    Names.add(krn)
-    Names.add(thr)
-    Names.add(upt)
-    Names.add(ver)
+def __dir__():
+    return ("flt", "krn", "register", "thr", "upt")
 
-def cmd(event):
-    event.reply(",".join(sorted(Names.modules)))
+starttime = time.time()
+
+def register(k):
+    k.addcmd(flt)
+    k.addcmd(krn)
+    k.addcmd(thr)
+    k.addcmd(upt)
 
 def flt(event):
     try:
         index = int(event.args[0])
-        event.reply(str(Bus.objs[index]))
+        event.reply(fmt(Bus.objs[index], skip=["queue", "ready", "iqueue"]))
         return
     except (TypeError, IndexError):
         pass
     event.reply(" | ".join([getname(o) for o in Bus.objs]))
 
 def krn(event):
-    if not event.sets:
-        event.reply(fmt(cfg, skip=["opts", "sets", "old", "res"]))
+    if not event.args:
+        event.reply(fmt(Kernel.cfg, skip=["otxt", "opts", "sets", "old", "res"]))
         return
-    edit(cfg, event.sets)
-    cfg.save()
+    edit(Kernel.cfg, event.sets)
+    Kernel.cfg.save()
     event.reply("ok")
 
 def thr(event):
@@ -57,20 +57,9 @@ def thr(event):
             result.append((up, thrname))
     res = []
     for up, txt in sorted(result, key=lambda x: x[0]):
-        res.append("%s %s" % (txt, elapsed(up)))
+        res.append("%s(%s)" % (txt, elapsed(up)))
     if res:
-        event.reply(" | ".join(res))
+        event.reply(" ".join(res))
 
 def upt(event):
     event.reply("uptime is %s" % elapsed(time.time() - starttime))
-
-def ver(event):
-    res = []
-    for name in sys.modules:
-        mod = sys.modules.get(name, None)
-        if mod and "__version__" in dir(mod):
-            if name == "__main__":
-                continue
-            res.append("%s %s" % (mod.__name__, mod.__version__))
-    if res:
-        event.reply(" | ".join(res))

@@ -1,18 +1,19 @@
-# This file is in the Public Domain.
+# This file is placed in the Public Domain.
 
 import threading
 
-from bus import Bus
-from obj import Object
-from opt import Output
-from prs import parseargs
+from .bus import Bus
+from .obj import Object
+from .opt import Output
+from .prs import parse_txt
 
 class Event(Object):
 
     def __init__(self):
         super().__init__()
-        self.channel = ""
+        self.channel = None
         self.done = threading.Event()
+        self.error = ""
         self.exc = None
         self.orig = None
         self.result = []
@@ -25,7 +26,7 @@ class Event(Object):
 
     def parse(self):
         if self.txt is not None:
-            parseargs(self, self.txt)
+            parse_txt(self, self.txt)
 
     def ready(self):
         self.done.set()
@@ -51,9 +52,3 @@ class Event(Object):
         self.done.wait(timeout)
         for thr in self.thrs:
             thr.join(timeout)
-
-class Command(Event):
-
-    def __init__(self):
-        super().__init__()
-        self.type = "cmd"
