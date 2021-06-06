@@ -4,10 +4,10 @@
 
 import time
 
-from .dbs import find, listfiles, fntime
-from .krn import Kernel
-from .prs import elapsed
-from .obj import cfg, fmt
+from dbs import find, listfiles, fntime
+from krn import Kernel
+from prs import elapsed
+from obj import cfg, fmt
 
 def __dir__():
     return ("fnd", "register")

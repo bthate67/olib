@@ -2,8 +2,8 @@
 
 "todo"
 
-from .dbs import find
-from .obj import Object
+from dbs import find
+from obj import Object
 
 def __dir__():
     return ("Todo", "dne", "register", "tdo")

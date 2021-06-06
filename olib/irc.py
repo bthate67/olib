@@ -10,16 +10,16 @@ import time
 import threading
 import _thread
 
-from .bus import Bus
-from .dbs import find, last
-from .dft import Default
-from .evt import Event
-from .hdl import end
-from .clt import Client
-from .opt import Output
-from .thr import launch
-from .krn import kcmd
-from .obj import Object, edit, fmt
+from bus import Bus
+from dbs import find, last
+from dft import Default
+from evt import Event
+from hdl import end
+from clt import Client
+from opt import Output
+from thr import launch
+from krn import kcmd
+from obj import Object, edit, fmt
 
 def __dir__():
     return ("ENOUSER", "Cfg", "DCC", "Event", "IRC", "User", "Users", "cfg", "dlt", "init", "locked", "met", "mre", "register")

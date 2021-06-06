@@ -2,9 +2,9 @@
 
 import queue
 
-from .cmd import Command
-from .hdl import ENOMORE, Handler, docmd
-from .thr import launch
+from cmd import Command
+from hdl import ENOMORE, Handler, docmd
+from thr import launch
 
 class Client(Handler):
 

@@ -2,9 +2,9 @@
 
 import queue
 
-from .lst import List
-from .obj import Object
-from .thr import launch
+from lst import List
+from obj import Object
+from thr import launch
 
 class Output(Object):
 

@@ -5,11 +5,11 @@
 import socket
 import time
 
-from .bus import Bus
-from .dbs import last
-from .dft import Default
-from .obj import Object
-from .thr import launch
+from bus import Bus
+from dbs import last
+from dft import Default
+from obj import Object
+from thr import launch
 
 def __dir__():
     return ("Cfg", "UDP", "init", "toudp")

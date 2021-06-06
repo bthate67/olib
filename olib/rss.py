@@ -6,12 +6,12 @@ import re
 import threading
 import urllib
 
-from .bus import Bus
-from .clk import Repeater
-from .dbs import all, find, last, lastmatch
-from .dft import Default
-from .thr import launch
-from .obj import Object, cfg, edit
+from bus import Bus
+from clk import Repeater
+from dbs import all, find, last, lastmatch
+from dft import Default
+from thr import launch
+from obj import Object, cfg, edit
 
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote_plus, urlencode

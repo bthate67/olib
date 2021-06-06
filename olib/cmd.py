@@ -1,6 +1,6 @@
 # This file is placed in the Public Domain.
 
-from .evt import Event
+from evt import Event
 
 class Command(Event):
 

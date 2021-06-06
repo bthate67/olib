@@ -1,52 +1,52 @@
 "all modules"
 
-from bot.krn import Kernel
+from krn import Kernel
 
-import bot.bus
-import bot.cfg
-import bot.clk
-import bot.clt
-import bot.cmd
-import bot.cms
-import bot.dbs
-import bot.dft
-import bot.evt
-import bot.hdl
-import bot.irc
-import bot.krn
-import bot.lst
-import bot.obj
-import bot.opt
-import bot.prs
-import bot.thr
-import bot.adm
-import bot.fnd
-import bot.log
-import bot.rss
-import bot.tdo
-import bot.udp
-import bot.ver
+import bus
+import cfg
+import clk
+import clt
+import cmd
+import cms
+import dbs
+import dft
+import evt
+import hdl
+import irc
+import krn
+import lst
+import obj
+import opt
+import prs
+import thr
+import adm
+import fnd
+import log
+import rss
+import tdo
+import udp
+import ver
 
-Kernel.addmod(bot.adm)
-Kernel.addmod(bot.fnd)
-Kernel.addmod(bot.log)
-Kernel.addmod(bot.rss)
-Kernel.addmod(bot.tdo)
-Kernel.addmod(bot.udp)
-Kernel.addmod(bot.bus)
-Kernel.addmod(bot.cfg)
-Kernel.addmod(bot.clk)
-Kernel.addmod(bot.clt)
-Kernel.addmod(bot.cmd)
-Kernel.addmod(bot.cms)
-Kernel.addmod(bot.dft)
-Kernel.addmod(bot.evt)
-Kernel.addmod(bot.hdl)
-Kernel.addmod(bot.irc)
-Kernel.addmod(bot.krn)
-Kernel.addmod(bot.lst)
-Kernel.addmod(bot.obj)
-Kernel.addmod(bot.opt)
-Kernel.addmod(bot.prs)
-Kernel.addmod(bot.thr)
-Kernel.addmod(bot.ver)
+Kernel.addmod(adm)
+Kernel.addmod(fnd)
+Kernel.addmod(log)
+Kernel.addmod(rss)
+Kernel.addmod(tdo)
+Kernel.addmod(udp)
+Kernel.addmod(bus)
+Kernel.addmod(cfg)
+Kernel.addmod(clk)
+Kernel.addmod(clt)
+Kernel.addmod(cmd)
+Kernel.addmod(cms)
+Kernel.addmod(dft)
+Kernel.addmod(evt)
+Kernel.addmod(hdl)
+Kernel.addmod(irc)
+Kernel.addmod(krn)
+Kernel.addmod(lst)
+Kernel.addmod(obj)
+Kernel.addmod(opt)
+Kernel.addmod(prs)
+Kernel.addmod(thr)
+Kernel.addmod(ver)

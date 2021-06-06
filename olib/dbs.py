@@ -3,8 +3,8 @@
 import os
 import time
 
-from .krn import Kernel
-from .obj import cfg, gettype, search
+from krn import Kernel
+from obj import cfg, gettype, search
 
 class ENOTYPE(Exception):
 

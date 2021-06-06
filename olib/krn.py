@@ -8,10 +8,10 @@ import pwd
 import sys
 import time
 
-from .dft import Default
-from .obj import Object, cdir, cfg, spl
-from .prs import parse_txt
-from .thr import launch
+from dft import Default
+from obj import Object, cdir, cfg, spl
+from prs import parse_txt
+from thr import launch
 
 def __dir__():
     return ('Cfg', 'Kernel', 'Repeater', 'Timer', 'all', 'debug', 'deleted',

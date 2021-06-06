@@ -2,7 +2,7 @@
 
 __version__ = 45
 
-from .krn import Kernel
+from krn import Kernel
 
 def register(k):
     k.addcmd(ver)
