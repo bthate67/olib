@@ -1,58 +1,62 @@
 #!/usr/bin/env python3
 # This file is placed in the Public Domain.
 
-import importlib
-import os
-import sys
+__version__ = 103
+
+import os, sys ; sys.path.insert(0, "olib")
+
+from clt import Client
+from krn import Kernel
+from obj import cfg
+
+import all
+
+import doctest
 import shutil
 import unittest
 
-sys.path.insert(0, "olib")
-sys.path.insert(0, "omod")
-
-from nms import Names, findnames
-from hdl import Client, reg
-from obj import boot, cfg, opts
-from trm import exec
-from utl import spl
-
-import obj
-
-import trc
-import url
-
-mods = "adm,fnd,irc,log,rss,tdo,udp"
+all = "adm,cms,fnd,irc,log,rss,tdo,udp"
+flags = doctest.REPORT_NDIFF|doctest.FAIL_FAST|doctest.ELLIPSIS
 
 class Test(Client):
 
+    def __init__(self):
+        super().__init__()
+        self.initialize()
+
     def raw(self, txt):
-        if "v" in obj.cfg.opts:
+        if Kernel.opts("v"):
             print(txt)
 
-def scan(mns):
-    res = []
-    for mn in spl(mns):
-        try:
-            mod = importlib.import_module(mn)
-        except ImportError:
-            continue
-        Names.names.update(findnames(mod))
-        reg(mn)
-        res.append(mod)
-    return res
+def docmd(hdl, o):
+    o.parse()
+    f = Kernel.getcmd(o.cmd)
+    if f:
+        f(o)
+        o.show()
+    o.ready()
+
+def exec(main):
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass
 
 def main():
-    boot()
+    if os.path.exists(".test"):
+        shutil.rmtree(".test")
+    cfg.debug = True
     cfg.wd = ".test"
-    shutil.rmtree(".test", True)
-    url.debug = True
+    k = Kernel()
+    k.parse()
+    k.boot("test", __version__)
+    k.regs(all)
     c = Test()
+    c.register("cmd", docmd)
     c.start()
-    scan(mods)
     pat = "test_%s*" % "*"
     suite = unittest.loader.TestLoader().discover("test", pattern=pat)
     unittest.TextTestRunner(verbosity=3).run(suite)
+    doctest.testfile("../test/test1.txt", optionflags=flags, report=False, verbose=False)
 
 exec(main)
-for e in trc.exc:
-    print(e)

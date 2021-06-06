@@ -52,3 +52,9 @@ class Event(Object):
         self.done.wait(timeout)
         for thr in self.thrs:
             thr.join(timeout)
+
+class Command(Event):
+
+    def __init__(self):
+        super().__init__()
+        self.type = "cmd"

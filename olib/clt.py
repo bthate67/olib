@@ -2,7 +2,7 @@
 
 import queue
 
-from cmd import Command
+from evt import Command
 from hdl import ENOMORE, Handler, docmd
 from thr import launch
 
