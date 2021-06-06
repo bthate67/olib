@@ -59,6 +59,8 @@ class Console(CLI):
         return input("> ")
 
 def scan(path, base=None):
+    if not os.path.exists(path):
+        return
     if base is None:
         base = os.path.dirname(path).split(os.sep)[-1]
     for p in os.listdir(path):

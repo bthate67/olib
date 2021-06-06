@@ -61,12 +61,12 @@ class ENOUSER(Exception):
 class Cfg(Default):
 
     cc = "!"
-    channel = "#botd"
-    nick = "botd"
+    channel = "#obot"
+    nick = "obot"
     port = 6667
     server = "localhost"
     realname = "24/7 channel daemon"
-    username = "botd"
+    username = "obot"
     users = False
 
     def __init__(self, val=None):
