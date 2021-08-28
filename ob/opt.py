@@ -1,18 +1,19 @@
 # This file is placed in the Public Domain.
 
 import queue
+import threading
 
-from lst import List
-from obj import Object
-from thr import launch
+from .obj import List, Object
+from .thr import launch
 
 class Output(Object):
 
     cache = List()
 
     def __init__(self):
-        super().__init__()
+        Object.__init__(self)
         self.oqueue = queue.Queue()
+        self.dostop = threading.Event()
 
     @staticmethod
     def append(channel, txtlist):
@@ -27,9 +28,9 @@ class Output(Object):
         self.oqueue.put_nowait((channel, txt))
 
     def output(self):
-        while not self.stopped:
+        while not self.dostop.isSet():
             (channel, txt) = self.oqueue.get()
-            if self.stopped or channel is None:
+            if self.dostop.isSet() or channel is None:
                 break
             self.dosay(channel, txt)
 
@@ -40,10 +41,10 @@ class Output(Object):
         return 0
 
     def start(self):
-        self.stopped = False
+        self.dostop.clear()
         launch(self.output)
         return self
 
     def stop(self):
-        self.stopped = True
+        self.dostop.set()
         self.oqueue.put_nowait((None, None))
