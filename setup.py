@@ -14,7 +14,7 @@ setup(
     url='https://github.com/bthate67/olib',
     long_description=read(),
     license='Public Domain',
-    packages=["ob"],
+    packages=["ol"],
     zip_safe=True,
     classifiers=['Development Status :: 4 - Beta',
                  'License :: Public Domain',
